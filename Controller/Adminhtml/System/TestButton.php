@@ -2,6 +2,7 @@
 
 namespace Cap\GmailSmtp\Controller\Adminhtml\System;
 
+use Cap\GmailSmtp\Helper\Data;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
@@ -20,16 +21,24 @@ class TestButton extends Action
     protected $resultPageFactory;
 
     /**
+     * @var Data
+     */
+    protected $helper;
+
+    /**
      * TestButton constructor.
      *
      * @param Action\Context $context
      * @param PageFactory $resultPageFactory
+     * @param Data $helper
      */
     public function __construct(
         Action\Context $context,
-        PageFactory $resultPageFactory
+        PageFactory $resultPageFactory,
+        Data $helper
     ) {
         $this->resultPageFactory = $resultPageFactory;
+        $this->helper = $helper;
         parent::__construct($context);
     }
 
@@ -49,6 +58,9 @@ class TestButton extends Action
                 return;
             }
         }
+        //decrypted password
+        $password = $this->helper->getConfigPassword();
+
         $result = $username . $password . $auth;
         $this->getResponse()->setBody($this->makeClickableLinks($result));
     }
