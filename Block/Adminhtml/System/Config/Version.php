@@ -1,6 +1,6 @@
 <?php
 
-namespace Cap\GmailSmtp\Block\Adminhtml\System\Config\Form\Field;
+namespace Cap\GmailSmtp\Block\Adminhtml\System\Config;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;

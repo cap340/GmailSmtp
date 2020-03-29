@@ -1,0 +1,42 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Cap\GmailSmtp\Block\Adminhtml\System\Config\TestButton */
+$jsonHelper = $this->helper('Magento\Framework\Json\Helper\Data');
+?>
+
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/alert'
+    ], function ($, alert) {
+        window.gmailSmtpAppDebugTest = function(){
+
+            $.ajax({
+                url: '<?php echo $block->getAdminUrl() ?>',
+                type: 'post',
+                dataType: 'html',
+                data: {
+                    form_key: FORM_KEY,
+                    auth: $('#cap_gmailsmtp_settings_auth').val(),
+                    ssl:$('#cap_gmailsmtp_settings_ssl').val(),
+                    host:$('#cap_gmailsmtp_settings_host').val(),
+                    port:$('#cap_gmailsmtp_settings_port').val(),
+                    username:$('#cap_gmailsmtp_settings_username').val(),
+                    password:$('#cap_gmailsmtp_settings_password').val(),
+                    email:$('#cap_gmailsmtp_settings_debug_email').val(),
+                    from_email:$('#ap_gmailsmtp_settings_debug_from_email').val()
+                },
+                showLoader: true
+            }).done(function(data) {
+                alert({
+                    title:'Result',
+                    content:data
+                });
+            });
+        }
+    });
+</script>
+
+<?php echo $block->getButtonHtml() ?>

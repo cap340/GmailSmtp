@@ -18,7 +18,7 @@
 				</field>
 				<field id="version" translate="label" type="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
 					<label>Module Version</label>
-					<frontend_model>Cap\GmailSmtp\Block\Adminhtml\System\Config\Form\Field\Version</frontend_model>
+					<frontend_model>Cap\GmailSmtp\Block\Adminhtml\System\Config\Version</frontend_model>
 				</field>
 			</group>
 			<group id="settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label">
@@ -70,6 +70,33 @@
 						<field id="*/general/active">1</field>
 					</depends>
 				</field>
+				<group id="debug" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="100" translate="label">
+					<label>Test Configuration</label>
+					<attribute type="expanded">0</attribute>
+					<frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+					<field id="email" translate="label comment" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Email address</label>
+						<comment>Email address to send test.</comment>
+						<frontend_class>validate-email</frontend_class>
+						<depends>
+							<field id="*/general/active">1</field>
+						</depends>
+					</field>
+					<field id="from_email" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>From Email Address</label>
+						<comment>Leave blank to use User Email Address</comment>
+						<frontend_class>validate-email</frontend_class>
+						<depends>
+							<field id="*/general/active">1</field>
+						</depends>
+					</field>
+					<field id="button" translate="label comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<frontend_model>Cap\GmailSmtp\Block\Adminhtml\System\Config\TestButton</frontend_model>
+						<depends>
+							<field id="*/general/active">1</field>
+						</depends>
+					</field>
+				</group>
 			</group>
 		</section>
 	</system>
