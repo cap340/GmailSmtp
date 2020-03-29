@@ -1,0 +1,23 @@
+{
+    "name": "cap/module-gmailsmtp",
+    "description": "",
+    "version": "1.0.0",
+    "type": "magento2-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastien Picard",
+            "email": "spicard@cap340.fr"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Cap\\GmailSmtp\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}
