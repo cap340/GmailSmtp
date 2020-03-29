@@ -44,11 +44,13 @@ class TestButton extends Action
 
     /**
      * @return ResponseInterface|ResultInterface|void
+     * @throws \Zend_Validate_Exception
+     * @throws \Zend_Mail_Exception
      */
     public function execute()
     {
         $request = $this->getRequest();
-        $name = 'Gmail SMTP Test';
+        $name = 'Cap Gmail SMTP Test Email';
         $username = $request->getPost('username');
         $password = $request->getPost('password');
         $auth = strtolower($request->getPost('auth'));
@@ -61,7 +63,40 @@ class TestButton extends Action
         //decrypted password
         $password = $this->helper->getConfigPassword();
 
-        $result = $username . $password . $auth;
+        $to = $request->getPost('email') ? $request->getPost('email') : $username;
+        $smtpHost = $request->getPost('host');
+        $smtpConf = [
+            'name' => $request->getPost('name'),
+            'port' => $request->getPost('port')
+        ];
+        if ($auth != 'none') {
+            $smtpConf['auth'] = $auth;
+            $smtpConf['username'] = $username;
+            $smtpConf['password'] = $password;
+
+        }
+        $ssl = $request->getPost('ssl');
+        if ($ssl != 'none') {
+            $smtpConf['ssl'] = $ssl;
+        }
+        $transport = new \Zend_Mail_Transport_Smtp($smtpHost, $smtpConf);
+        $from = trim($request->getPost('from_email'));
+        $from = \Zend_Validate::is($from, 'EmailAddress') ? $from : $username;
+
+        $mail = new \Zend_Mail();
+        $mail->setFrom($from, $name);
+        $mail->addTo($to, $to);
+        $mail->setSubject('Hello from Cap Gmail SMTP');
+        $mail->setBodyHtml('Test mail.');
+
+        $result = __('Sent... Please check your email') . ' ' . $to;
+        try {
+            if (!$mail->send($transport) instanceof \Zend_Mail) {
+            }
+        } catch (\Exception $e) {
+            $result = __($e->getMessage());
+        }
+
         $this->getResponse()->setBody($this->makeClickableLinks($result));
     }
 
